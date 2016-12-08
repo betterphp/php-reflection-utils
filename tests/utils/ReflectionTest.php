@@ -26,17 +26,18 @@ class ReflectionTest extends TestCase {
     /**
      * @dataProvider dataGetProperty
      */
-    public function testGetProperty(string $property_name) {
-        $this->assertSame(
-            $this->example_object->get_value($property_name),
-            reflection::get_property($this->example_object, $property_name)
-        );
+    public function testGetProperty(string $property_name, string $expected_type) {
+        $reflected_value = reflection::get_property($this->example_object, $property_name);
+        $actual_value = $this->example_object->get_value($property_name);
+
+        $this->assertInternalType($expected_type, $reflected_value);
+        $this->assertSame($actual_value, $reflected_value);
     }
 
     public function dataGetProperty(): array {
         return [
-            ['example_string_property'],
-            ['example_array_property'],
+            ['example_string_property', 'string'],
+            ['example_array_property', 'array'],
         ];
     }
 
