@@ -41,4 +41,13 @@ class ReflectionTest extends TestCase {
         ];
     }
 
+    public function testSetProperty() {
+        $expected_value = 'wow such value';
+        $property_name = 'example_string_property';
+
+        reflection::set_property($this->example_object, $property_name, $expected_value);
+
+        $this->assertSame($expected_value, $this->example_object->get_value($property_name));
+    }
+
 }

@@ -21,4 +21,20 @@ class reflection {
         return $property->getValue($object);
     }
 
+    /**
+     * Sets the value of an object property
+     *
+     * @param object $object The object to update
+     * @param string $property_name The name of the property
+     * @param mixed $value The new value to set
+     *
+     * @return void
+     */
+    public static function set_property($object, string $property_name, $value) {
+        $property = new \ReflectionProperty(get_class($object), $property_name);
+        $property->setAccessible(true);
+
+        $property->setValue($object, $value);
+    }
+
 }
