@@ -27,7 +27,7 @@ class reflection {
             $class_name = get_parent_class($class_name);
         } while ($class_name !== false);
 
-        throw new \Exception("Unable to find class for the property {$property_name}");
+        throw new \Exception("Unable to find class for {$name}");
     }
 
     /**
