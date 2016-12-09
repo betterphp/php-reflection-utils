@@ -27,6 +27,34 @@ class ReflectionTest extends TestCase {
         unset($this->example_child_object);
     }
 
+    private function callResolveClass(string $class_name, string $name, bool $method) {
+        $function = new \ReflectionMethod(reflection::class, 'resolve_class');
+        $function->setAccessible(true);
+
+        return $function->invokeArgs(null, [&$class_name, &$name, &$method]);
+    }
+
+    public function testResolveClass() {
+        $this->assertSame(
+            example_class::class,
+            $this->callResolveClass(example_child_class::class, 'example_string_property', false)
+        );
+
+        $this->assertSame(
+            example_child_class::class,
+            $this->callResolveClass(example_child_class::class, 'example_child_string_property', false)
+        );
+    }
+
+    public function testResolveClassWithBadProperty() {
+        $property_name = 'this_is_not_a_valid_property_name';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Unable to find class for {$property_name}");
+
+        $this->callResolveClass(example_child_class::class, $property_name, false);
+    }
+
     /**
      * @dataProvider dataGetProperty
      */
