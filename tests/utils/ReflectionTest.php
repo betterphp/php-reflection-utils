@@ -14,13 +14,16 @@ include_once __DIR__ . '/../example_classes.php';
 class ReflectionTest extends TestCase {
 
     private $example_object;
+    private $example_child_object;
 
     public function setUp() {
         $this->example_object = new example_class();
+        $this->example_child_object = new example_child_class();
     }
 
     public function tearDown() {
         unset($this->example_object);
+        unset($this->example_child_object);
     }
 
     /**
@@ -39,6 +42,26 @@ class ReflectionTest extends TestCase {
             ['example_string_property', 'string'],
             ['example_array_property', 'array'],
         ];
+    }
+
+    /**
+     * @dataProvider dataGetPropertyFromChild
+     */
+    public function testGetPropertyFromChild(string $property_name, string $expected_type) {
+        $reflected_value = reflection::get_property($this->example_child_object, $property_name);
+        $actual_value = $this->example_child_object->get_value($property_name);
+
+        $this->assertInternalType($expected_type, $reflected_value);
+        $this->assertSame($actual_value, $reflected_value);
+    }
+
+    public function dataGetPropertyFromChild(): array {
+        return array_merge(
+            $this->dataGetProperty(),
+            [
+                ['example_child_string_property', 'string'],
+            ]
+        );
     }
 
     public function testSetProperty() {
