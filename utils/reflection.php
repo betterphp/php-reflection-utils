@@ -8,7 +8,7 @@ class reflection {
 
     /**
      * Search for the class name that a property is defined in. This is useful
-     * as the reflection API uses that and not the class of the actual object.
+     * as the reflection API needs that and not the class of the actual object.
      *
      * @param string $class_name The name of the starting class
      * @param string $name The name of the thing to search for
