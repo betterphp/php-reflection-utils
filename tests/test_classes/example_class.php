@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 class example_class {
 
-    protected $example_string_property;
-    protected $example_array_property;
+    private $example_string_property;
+    private $example_array_property;
 
     public function __construct() {
         $this->example_string_property = uniqid();
