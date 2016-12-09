@@ -6,7 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 use betterphp\utils\reflection;
 
-include_once __DIR__ . '/../example_classes.php';
+include_once __DIR__ . '/../test_classes/example_class.php';
+include_once __DIR__ . '/../test_classes/example_child_class.php';
 
 /**
  * @covers \betterphp\utils\reflection
@@ -57,6 +58,7 @@ class ReflectionTest extends TestCase {
 
     public function dataGetPropertyFromChild(): array {
         return array_merge(
+            // Same values as the parent and then the one for the child
             $this->dataGetProperty(),
             [
                 ['example_child_string_property', 'string'],
