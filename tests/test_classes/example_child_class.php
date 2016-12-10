@@ -23,4 +23,12 @@ class example_child_class extends example_class {
         }
     }
 
+    private function example_child_method(int $number) {
+        return ($number * 20);
+    }
+
+    private static function example_child_static_method(int $number) {
+        return ($number * 20);
+    }
+
 }

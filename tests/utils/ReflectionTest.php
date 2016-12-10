@@ -27,23 +27,59 @@ class ReflectionTest extends TestCase {
         unset($this->example_child_object);
     }
 
-    private function callResolveClass(string $class_name, string $name, bool $method) {
-        $function = new \ReflectionMethod(reflection::class, 'resolve_class');
+    /**
+     * @dataProvider dataResolvePropertyClass
+     */
+    public function testResolvePropertyClass(
+        string $expected_class_name,
+        string $input_class_name,
+        string $input_property_name
+    ) {
+        $function = new \ReflectionMethod(reflection::class, 'resolve_property_class');
         $function->setAccessible(true);
 
-        return $function->invokeArgs(null, [&$class_name, &$name, &$method]);
+        $actual_class_name = $function->invokeArgs(null, [&$input_class_name, &$input_property_name]);
+
+        $this->assertSame($expected_class_name, $actual_class_name);
     }
 
-    public function testResolveClass() {
-        $this->assertSame(
-            example_class::class,
-            $this->callResolveClass(example_child_class::class, 'example_string_property', false)
-        );
+    public function dataResolvePropertyClass(): array {
+        return [
+            // should return the parent regardless of the input
+            [example_class::class, example_class::class, 'example_string_property'],
+            [example_class::class, example_child_class::class, 'example_string_property'],
+            // should return the child for it's property
+            [example_child_class::class, example_child_class::class, 'example_child_string_property'],
+        ];
+    }
 
-        $this->assertSame(
-            example_child_class::class,
-            $this->callResolveClass(example_child_class::class, 'example_child_string_property', false)
-        );
+    /**
+     * @dataProvider dataResolveMethodClass
+     */
+    public function testResolveMethodClass(
+        string $expected_class_name,
+        string $input_class_name,
+        string $input_method_name
+    ) {
+        $function = new \ReflectionMethod(reflection::class, 'resolve_method_class');
+        $function->setAccessible(true);
+
+        $actual_class_name = $function->invokeArgs(null, [&$input_class_name, &$input_method_name]);
+
+        $this->assertSame($expected_class_name, $actual_class_name);
+    }
+
+    public function dataResolveMethodClass(): array {
+        return [
+            // the same for methods
+            [example_class::class, example_class::class, 'example_method'],
+            [example_class::class, example_child_class::class, 'example_method'],
+            [example_child_class::class, example_child_class::class, 'example_child_method'],
+            // and static ones
+            [example_class::class, example_class::class, 'example_static_method'],
+            [example_class::class, example_child_class::class, 'example_static_method'],
+            [example_child_class::class, example_child_class::class, 'example_child_static_method'],
+        ];
     }
 
     public function testResolveClassWithBadProperty() {
@@ -52,7 +88,9 @@ class ReflectionTest extends TestCase {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Unable to find class for {$property_name}");
 
-        $this->callResolveClass(example_child_class::class, $property_name, false);
+        $function = new \ReflectionMethod(reflection::class, 'resolve_property_class');
+        $function->setAccessible(true);
+        $function->invokeArgs(null, [example_child_class::class, $property_name]);
     }
 
     /**
@@ -102,5 +140,37 @@ class ReflectionTest extends TestCase {
 
         $this->assertSame($expected_value, $this->example_object->get_value($property_name));
     }
+
+    // These have to be seperate as data providers don't have access to things defined in setUp()
+
+    /**
+     * @dataProvider dataCallMethod
+     */
+    public function testCallMethod(string $object_property, string $method_name, int $input, int $expected) {
+        $this->assertSame($expected, reflection::call_method($this->{$object_property}, $method_name, $input));
+    }
+
+    public function dataCallMethod(): array {
+        return [
+            ['example_object', 'example_method', 10, 100],
+            ['example_child_object', 'example_child_method', 10, 200],
+        ];
+    }
+
+    /**
+     * @dataProvider dataCallStaticMethod
+     */
+    public function testCallStaticMethod(string $class_name, string $method_name, int $input, int $expected) {
+        $this->assertSame($expected, reflection::call_method($class_name, $method_name, $input));
+    }
+
+    public function dataCallStaticMethod(): array {
+        return [
+            [example_class::class, 'example_static_method', 20, 200],
+            [example_child_class::class, 'example_child_static_method', 20, 400],
+        ];
+    }
+
+    //
 
 }

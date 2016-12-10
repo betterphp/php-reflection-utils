@@ -24,4 +24,12 @@ class example_class {
         return $this->{$property_name};
     }
 
+    private function example_method(int $number) {
+        return ($number * 10);
+    }
+
+    private static function example_static_method(int $number) {
+        return ($number * 10);
+    }
+
 }
