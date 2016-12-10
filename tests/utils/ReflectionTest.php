@@ -159,6 +159,18 @@ class ReflectionTest extends TestCase {
         $this->assertSame($expected_value, $this->example_object->get_value($property_name));
     }
 
+    public function testSetStaticProperty() {
+        $property_name = 'example_static_property';
+        $expected_value = uniqid();
+
+        $starting_value = example_class::get_static_value($property_name);
+        reflection::set_property(example_class::class, $property_name, $expected_value);
+        $new_value = example_class::get_static_value($property_name);
+
+        $this->assertNotSame($starting_value, $new_value);
+        $this->assertSame($expected_value, $new_value);
+    }
+
     // These have to be seperate as data providers don't have access to things defined in setUp()
 
     /**
