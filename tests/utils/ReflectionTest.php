@@ -132,6 +132,24 @@ class ReflectionTest extends TestCase {
         );
     }
 
+    public function testGetStaticProperty() {
+        $property_name = 'example_static_property';
+        $reflected_value = reflection::get_property(example_class::class, $property_name);
+        $actual_value = example_class::get_static_value($property_name);
+
+        $this->assertInternalType('string', $reflected_value);
+        $this->assertSame($actual_value, $reflected_value);
+    }
+
+    public function testGetChildStaticProperty() {
+        $property_name = 'example_child_static_property';
+        $reflected_value = reflection::get_property(example_child_class::class, $property_name);
+        $actual_value = example_child_class::get_static_value($property_name);
+
+        $this->assertInternalType('string', $reflected_value);
+        $this->assertSame($actual_value, $reflected_value);
+    }
+
     public function testSetProperty() {
         $expected_value = 'wow such value';
         $property_name = 'example_string_property';

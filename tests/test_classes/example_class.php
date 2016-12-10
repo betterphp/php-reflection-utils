@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 class example_class {
 
+    private static $example_static_property = 'very private, such static, wow';
+
     private $example_string_property;
     private $example_array_property;
 
@@ -22,6 +24,18 @@ class example_class {
      */
     public function get_value($property_name) {
         return $this->{$property_name};
+    }
+
+    /**
+     * Similar to get_value() except this will access static properties
+     *
+     * @param string $property_name The name of the property
+     *
+     * @return mixed The property value
+     */
+    public static function get_static_value(string $property_name) {
+        // Note the variable variable here
+        return static::$$property_name;
     }
 
     private function example_method(int $number) {

@@ -60,34 +60,43 @@ class reflection {
     /**
      * Gets the value of an object property
      *
-     * @param object $object The object to get the value from
+     * @param mixed $object The object to get the value from or the class name for static properties
      * @param string $property_name The name of the property
      *
      * @return mixed The value
      */
     public static function get_property($object, string $property_name) {
-        $class_name = static::resolve_property_class(get_class($object), $property_name);
+        $class_name = (is_object($object)) ? get_class($object) : $object;
+        $class_name = static::resolve_property_class($class_name, $property_name);
         $property = new \ReflectionProperty($class_name, $property_name);
         $property->setAccessible(true);
 
-        return $property->getValue($object);
+        if (is_object($object)) {
+            return $property->getValue($object);
+        } else {
+            $class = $property->getDeclaringClass();
+            $values = $class->getStaticProperties();
+
+            return $values[$property_name];
+        }
     }
 
     /**
      * Sets the value of an object property
      *
-     * @param object $object The object to update
+     * @param mixed $object The object to update or the name of the class for static properties
      * @param string $property_name The name of the property
      * @param mixed $value The new value to set
      *
      * @return void
      */
     public static function set_property($object, string $property_name, $value) {
-        $class_name = static::resolve_property_class(get_class($object), $property_name);
+        $class_name = (is_object($object)) ? get_class($object) : $object;
+        $class_name = static::resolve_property_class($class_name, $property_name);
         $property = new \ReflectionProperty($class_name, $property_name);
         $property->setAccessible(true);
 
-        $property->setValue($object, $value);
+        $property->setValue((is_object($object)) ? $object : null, $value);
     }
 
     /**
