@@ -110,7 +110,7 @@ class reflection {
      *
      * @return mixed The value returned by the function
      */
-    public static function call_method($object, string $method_name, &...$args) {
+    public static function call_method($object, string $method_name, ...$args) {
         $class_name = (is_object($object)) ? get_class($object) : $object;
         $class_name = static::resolve_method_class($class_name, $method_name);
 
