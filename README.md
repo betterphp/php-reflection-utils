@@ -20,6 +20,9 @@ The library can be included via composer by adding a custom repo and the project
 ~~~
 This will pull from the master branch whenever you run `composer update`, proper versioning is on the to-do list.
 
+## Documentation
+Jenkins publishes a phpdoc [here](https://ci.jacekk.co.uk/view/Websites/job/PHP%20Reflection%20Utils/API_Docs/classes/betterphp.utils.reflection.html)
+
 ## Testing
 We use phpcs and phpunit for testing, run both before commiting anything
 ~~~
