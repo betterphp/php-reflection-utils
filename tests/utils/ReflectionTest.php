@@ -177,7 +177,7 @@ class ReflectionTest extends TestCase {
      * @dataProvider dataCallMethod
      */
     public function testCallMethod(string $object_property, string $method_name, int $input, int $expected) {
-        $this->assertSame($expected, reflection::call_method($this->{$object_property}, $method_name, $input));
+        $this->assertSame($expected, reflection::call_method($this->{$object_property}, $method_name, [$input]));
     }
 
     public function dataCallMethod(): array {
@@ -191,7 +191,7 @@ class ReflectionTest extends TestCase {
      * @dataProvider dataCallStaticMethod
      */
     public function testCallStaticMethod(string $class_name, string $method_name, int $input, int $expected) {
-        $this->assertSame($expected, reflection::call_method($class_name, $method_name, $input));
+        $this->assertSame($expected, reflection::call_method($class_name, $method_name, [$input]));
     }
 
     public function dataCallStaticMethod(): array {
@@ -205,7 +205,7 @@ class ReflectionTest extends TestCase {
         $test_value = 10;
         $expected_value = ($test_value * 2);
 
-        reflection::call_method($this->example_object, 'test_reference_method', $test_value);
+        reflection::call_method($this->example_object, 'test_reference_method', [&$test_value]);
 
         $this->assertSame($expected_value, $test_value);
     }
@@ -213,9 +213,16 @@ class ReflectionTest extends TestCase {
     public function testCallMethodSetReferenceValue() {
         $expected_value = 'wow such test';
 
-        reflection::call_method($this->example_object, 'test_set_reference_method', $actual_value, $expected_value);
+        reflection::call_method($this->example_object, 'test_set_reference_method', [&$actual_value, &$expected_value]);
 
         $this->assertSame($expected_value, $actual_value);
+    }
+
+    public function testCallMethodWithValue() {
+        // Not using a variable here as we need to test a value vs a reference
+        $result = reflection::call_method($this->example_object, 'test_value_method', ['some string']);
+
+        $this->assertSame('some string', $result);
     }
 
     //

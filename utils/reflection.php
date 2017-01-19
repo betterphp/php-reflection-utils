@@ -106,11 +106,11 @@ class reflection {
      *
      * @param mixed $object The object or class name that the function is from
      * @param string $method_name The name of the method to be called
-     * @param mixed ...$args The arguments to pass to the function
+     * @param array $args The arguments to pass to the function
      *
      * @return mixed The value returned by the function
      */
-    public static function call_method($object, string $method_name, &...$args) {
+    public static function call_method($object, string $method_name, array $args) {
         $class_name = (is_object($object)) ? get_class($object) : $object;
         $class_name = static::resolve_method_class($class_name, $method_name);
 

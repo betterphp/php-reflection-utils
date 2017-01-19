@@ -54,4 +54,8 @@ class example_class {
         $target = $value;
     }
 
+    public function test_value_method(string $value) {
+        return $value;
+    }
+
 }
