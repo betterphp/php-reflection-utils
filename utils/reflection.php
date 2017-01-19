@@ -121,8 +121,6 @@ class reflection {
         $closure = $method->getClosure($target);
 
         return $closure(...$args);
-
-        // return $method->invokeArgs($target, $args);
     }
 
 }
