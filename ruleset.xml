@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="vnstat-frontend-style">
+<ruleset name="php-reflection-utils-style">
     <description>PHP Reflection Utils Code Style</description>
     <exclude-pattern type="relative">^.git/*</exclude-pattern>
     <exclude-pattern type="relative">^vendor/*</exclude-pattern>
