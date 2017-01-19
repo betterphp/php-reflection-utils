@@ -100,6 +100,26 @@ class reflection {
     }
 
     /**
+     * Gets the closure of a method that can then be called or passed to a function as a callback
+     *
+     * @param mixed $object The object or class name that the method is from
+     * @param string $method_name The name of the method
+     *
+     * @return \Closure The function
+     */
+    public function get_method($object, string $method_name): \Closure {
+        $class_name = (is_object($object)) ? get_class($object) : $object;
+        $class_name = static::resolve_method_class($class_name, $method_name);
+
+        $method = new \ReflectionMethod($class_name, $method_name);
+        $method->setAccessible(true);
+
+        $target = (is_object($object)) ? $object : null;
+
+        return $method->getClosure($target);
+    }
+
+    /**
      * Executes a method on a class or object. If a string is given for the first
      * parameter then it will be treated as a class name and the method will be
      * called statically.
@@ -111,16 +131,7 @@ class reflection {
      * @return mixed The value returned by the function
      */
     public static function call_method($object, string $method_name, array $args) {
-        $class_name = (is_object($object)) ? get_class($object) : $object;
-        $class_name = static::resolve_method_class($class_name, $method_name);
-
-        $method = new \ReflectionMethod($class_name, $method_name);
-        $method->setAccessible(true);
-
-        $target = (is_object($object)) ? $object : null;
-        $closure = $method->getClosure($target);
-
-        return $closure(...$args);
+        return self::get_method($object, $method_name)(...$args);
     }
 
 }
