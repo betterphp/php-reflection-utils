@@ -201,6 +201,23 @@ class ReflectionTest extends TestCase {
         ];
     }
 
+    public function testCallMethodWithReference() {
+        $test_value = 10;
+        $expected_value = ($test_value * 2);
+
+        reflection::call_method($this->example_object, 'test_reference_method', $test_value);
+
+        $this->assertSame($expected_value, $test_value);
+    }
+
+    public function testCallMethodSetReferenceValue() {
+        $expected_value = 'wow such test';
+
+        reflection::call_method($this->example_object, 'test_set_reference_method', $actual_value, $expected_value);
+
+        $this->assertSame($expected_value, $actual_value);
+    }
+
     //
 
 }

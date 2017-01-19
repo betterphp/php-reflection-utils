@@ -118,8 +118,11 @@ class reflection {
         $method->setAccessible(true);
 
         $target = (is_object($object)) ? $object : null;
+        $closure = $method->getClosure($target);
 
-        return $method->invokeArgs($target, $args);
+        return $closure(...$args);
+
+        // return $method->invokeArgs($target, $args);
     }
 
 }

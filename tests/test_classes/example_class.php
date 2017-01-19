@@ -46,4 +46,12 @@ class example_class {
         return ($number * 10);
     }
 
+    public function test_reference_method(int &$input) {
+        $input *= 2;
+    }
+
+    public function test_set_reference_method(string &$target = null, string $value) {
+        $target = $value;
+    }
+
 }
