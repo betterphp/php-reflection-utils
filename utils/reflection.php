@@ -131,7 +131,7 @@ class reflection {
      * @return mixed The value returned by the function
      */
     public static function call_method($object, string $method_name, array $args = []) {
-        return self::get_method($object, $method_name)(...$args);
+        return static::get_method($object, $method_name)(...$args);
     }
 
 }
