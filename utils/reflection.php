@@ -107,7 +107,7 @@ class reflection {
      *
      * @return \Closure The function
      */
-    public function get_method($object, string $method_name): \Closure {
+    public static function get_method($object, string $method_name): \Closure {
         $class_name = (is_object($object)) ? get_class($object) : $object;
         $class_name = static::resolve_method_class($class_name, $method_name);
 
