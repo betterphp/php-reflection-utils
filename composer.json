@@ -1,12 +1,17 @@
 {
     "name": "betterphp/php-reflection-utils",
-    "version": "0.1-dev",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "GPL-3.0",
     "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/betterphp/php-code-style.git"
         }
     ],
+    "require": {
+        "php": ">= 5.6.0"
+    },
     "require-dev": {
         "betterphp/php-code-style": "dev-master",
         "squizlabs/php_codesniffer": "~2",
