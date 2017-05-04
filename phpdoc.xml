@@ -8,6 +8,6 @@
         <template name="clean" />
     </transformer>
     <files>
-        <directory>./utils</directory>
+        <directory>./src/utils</directory>
     </files>
 </phpdoc>

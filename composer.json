@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "betterphp\\utils\\": "./utils"
+            "betterphp\\utils\\": "./src/utils"
         }
     }
 }
