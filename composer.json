@@ -3,6 +3,8 @@
     "version": "1.0.0",
     "type": "library",
     "license": "GPL-3.0",
+    "description": "PHP Reflection Utils is a set of helper methods for accessing the private properties and methods of a class",
+    "keywords": ["reflection", "test", "unit test", "private", "call"],
     "repositories": [
         {
             "type": "vcs",
